@@ -9,12 +9,17 @@ void print(std::vector<std::string> line)
     }
 }
 
+std::vector<std::string> *parser(std::string)
+{
+    std::vector<std::string> *line = new std::vector<std::string>;
+    return line;
+}
+
 void tty()
 {
     std::vector<std::string> line;
     std::string token;
-    while (std::cin >> token)
-        line.push_back(token);
+    getline(std::cin, token);
     std::cout << "input is: ";
     print(line);
     std::cout << "\nShunting yard returned: " << shunting_yard(line);

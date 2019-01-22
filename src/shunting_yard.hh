@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <iostream>
+#include <string>
 
 void tty(void);
 int shunting_yard(const std::vector<std::string> str);
