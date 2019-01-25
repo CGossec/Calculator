@@ -99,7 +99,27 @@ void Calculator::add_tkn(const Token t)
     }
     else if (t.get_type() == RPAR)
     {
-        while (operators_.back().type != LPAR)
-            //pop -> compute -> pushback onto value
+        for (; operators_.back().get_type() != LPAR; operators_.pop_back())
+        {
+
+        }
+        operators_.pop_back();
+    }
+    else
+    {
+        while (operators_.size() && ((operators_.back().precedence() > t.precedence()
+                || (operators_.back().precedence() == t.precedence()
+                        && operators_.back().left_assoc()))
+                && operators_.back().get_type() != LPAR))
+        {
+            Token lhs = values_.back();
+            Token rhs = values_.back();
+            values_.pop_back();
+            values_.pop_back();
+            Token op = operators_.back();
+            operators_.pop_back();
+            std::cout << reduce(lhs, rhs, op) << "\n";
+        }
+        operators_.push_back(t);
     }
 }
