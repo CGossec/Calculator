@@ -2,7 +2,8 @@ cmake_minimum_required(VERSION 3.0)
 
 project(shunting LANGUAGES CXX)
 
-add_executable(calculator src/shunting_yard.cc src/main.cc src/lexer.cc)
+add_executable(calculator src/main.cc src/lexer.cc
+    src/calculator.cc)
 
 #target_link_libraries()
 
