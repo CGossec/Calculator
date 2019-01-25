@@ -23,13 +23,29 @@ public:
     {
         return type_;
     }
-    std::string get_val() const
+    const std::string get_val() const
     {
         return val_;
     }
+    int precedence() const
+    {
+        if (val_ == "^")
+            return 4;
+        if (val_ == "*" || val_ == "/")
+            return 3;
+        if (val_ == "+" || val_ == "-")
+            return 2;
+        return -1;
+    }
+    bool left_assoc() const
+    {
+        if (val_ == "*" || val_ == "/" || val_ == "+" || val_ == "-")
+            return true;
+        return false;
+    }
 private:
     const std::string val_;
-    const enum type type_;
+    enum type type_;
 };
 
 class Lexer
@@ -41,7 +57,7 @@ public:
     void set_src(std::string str);
     bool has_tokens() const;
 private:
-    std::string read_number(std::string src, unsigned& cursor);
+    std::string read_number(std::string src);
     std::string src_;
     unsigned cursor_;
 };
