@@ -1,15 +1,15 @@
 #include <iostream>
-#include "shunting_yard.hh"
 #include "lexer.hh"
-
-using namespace std;
+#include "calculator.hh"
 
 void tty()
 {
+    Calculator calc;
     while (true)
     {
+        calc.clear();
         std::string line;
-        std::cout << ">";
+        std::cout << "> ";
         getline(std::cin, line);
         if (line == "exit" || line[0] == EOF)
             break;
@@ -18,7 +18,9 @@ void tty()
         while (lexer.has_tokens())
         {
             Token t = lexer.read_tkn();
+            calc.add_tkn(t);
         }
+        calc.compute();
     }
     return;
 }
