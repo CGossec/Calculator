@@ -8,6 +8,9 @@ class Calculator
 {
 public:
     Calculator();
+    void clear();
+    void add_tkn(const Token t);
+    void compute();
 private:
     std::vector<Token> values_;
     std::vector<Token> operators_;
