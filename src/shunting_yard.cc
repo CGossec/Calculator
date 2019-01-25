@@ -15,15 +15,6 @@ std::vector<std::string> *parser(std::string)
     return line;
 }
 
-void tty()
-{
-    std::vector<std::string> line;
-    std::string token;
-    getline(std::cin, token);
-    std::cout << "input is: ";
-    print(line);
-    std::cout << "\nShunting yard returned: " << shunting_yard(line);
-}
 
 int shunting_yard(std::vector<std::string> str)
 {
