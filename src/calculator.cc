@@ -44,7 +44,50 @@ Calculator::Calculator()
     operators_ = std::vector<Token>();
 }
 
-Calculator::add_tkn(Token t)
+void Calculator::clear()
+{
+    values_.clear();
+    operators_.clear();
+}
+
+std::string reduce(Token lhs, Token rhs, Token op)
+{
+    if (op.get_val() == "*")
+    {
+        return std::string("mult");
+    }
+    else if (op.get_val() == "/")
+    {
+        return std::string("division");
+    }
+    else if (op.get_val() == "+")
+    {
+        return add_strings(lhs.get_val(), rhs.get_val());
+    }
+    else if (op.get_val() == "-")
+    {
+        return std::string("minus");
+    }
+    else
+        return std::string("[ERROR]");
+}
+
+void Calculator::compute()
+{
+    while (!operators_.empty())
+    {
+        Token a = values_.back();
+        values_.pop_back();
+        Token b = values_.back();
+        values_.pop_back();
+        Token op = operators_.back();
+        operators_.pop_back();
+        values_.push_back(Token(reduce(a, b, op), NUMBER));
+    }
+    std::cout << "Result is: " << values_.back() << "\n";
+}
+
+void Calculator::add_tkn(const Token t)
 {
     if (t.get_type() == NUMBER)
     {

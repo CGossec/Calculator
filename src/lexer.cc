@@ -4,26 +4,42 @@
 Lexer::Lexer()
 {
     src_ = "";
+    cursor_ = 0;
 }
 
 Lexer::Lexer(const std::string str)
 {
     src_ = str;
+    cursor_ = 0;
 }
 
 void Lexer::set_src(const std::string src)
 {
     src_ = src;
+    cursor_ = 0;
 }
 
-std::string Lexer::read_number(std::string src, unsigned& cursor_)
+std::string Lexer::read_number(std::string src)
 {
     int tmp = cursor_;
     while (isdigit(src[cursor_]))
     {
         cursor_++;
     }
-    return src.substr(tmp, cursor_);
+    return src.substr(tmp, cursor_ - tmp);
+}
+
+std::ostream& operator<<(std::ostream& os, const Token& t)
+{
+    if (t.get_type() == OPERATOR)
+        os << "{OP";
+    else if (t.get_type() == NUMBER)
+        os << "{NUMBER";
+    else if (t.get_type() == LPAR || t.get_type() == RPAR)
+        os << "{PAR";
+    os << ", ";
+    os << t.get_val() << "}";
+    return os;
 }
 
 Token Lexer::read_tkn()
@@ -34,7 +50,7 @@ Token Lexer::read_tkn()
     }
     if (isdigit(src_[cursor_]))
     {
-        return Token(read_number(src_, cursor_), NUMBER);
+        return Token(read_number(src_), NUMBER);
     }
     else if (src_[cursor_] == '(')
     {
@@ -48,8 +64,7 @@ Token Lexer::read_tkn()
     }
     else
     {
-        cursor_++;
-        return Token(std::string(1, src_[cursor_]), OPERATOR);
+        return Token(std::string(1, src_[cursor_++]), OPERATOR);
     }
 }
 
